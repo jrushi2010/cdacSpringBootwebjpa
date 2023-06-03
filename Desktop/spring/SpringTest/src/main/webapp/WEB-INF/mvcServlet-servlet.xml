@@ -37,7 +37,7 @@
 	</bean>
 	
 	
-	<bean id="SessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+	<bean id="sessionFactoryBean" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
     	<property name="dataSource" ref="dataSource"></property>
     	<property name="annotatedClasses">
     		<list>
@@ -52,8 +52,13 @@
     	</property>
      </bean>
 	
+	<bean id="hibernateTransactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactoryBean"></property>
+	 </bean>
 	
-	<mvc:annotation-driven />
+		<tx:annotation-driven transaction-manager="hibernateTransactionManager"/>
+	
+	<mvc:annotation-driven/>
 
 	<context:component-scan base-package="com.met.*"></context:component-scan>
 	

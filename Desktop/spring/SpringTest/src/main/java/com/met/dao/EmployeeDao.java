@@ -10,6 +10,7 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -18,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.met.model.Employee;
 
@@ -88,6 +90,8 @@ public class EmployeeDao {
 	}
 	
 	
+	//@Transactional(rollbackFor=Exception.class, noRollbackFor=NullPointerException.class)
+	@Transactional(rollbackFor=Exception.class)
 	public void saveEmployee(Employee employee) {
 		
 		System.out.println("EmployeeDao :: saveEmployee" + employee);
@@ -97,9 +101,20 @@ public class EmployeeDao {
 		
 		//saveUsingJDBCTemplate(employee);
 		
-		saveUsingHibernate(employee);
+		//saveUsingHibernate(employee);
+		
+		Session session = sessionFactory.getCurrentSession();
+		session.save(employee);
 		
 		//save it into db
+		
+		updateEmployeeCount();
+	}
+	
+	public void updateEmployeeCount() {
+		
+		Session session = sessionFactory.getCurrentSession();
+		session.createSQLQuery("update employeecount set count=count+1").executeUpdate();
 	}
 	
 //	class BeanPropertyRowMapper implements RowMapper<Employee>{
