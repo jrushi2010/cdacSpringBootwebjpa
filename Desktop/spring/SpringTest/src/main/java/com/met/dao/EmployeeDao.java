@@ -10,6 +10,10 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -27,6 +31,9 @@ public class EmployeeDao {
 	
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
+	
+	@Autowired
+	private SessionFactory sessionFactory;
 	
 	public void saveUsingDataSource(Employee employee) {
 		
@@ -54,6 +61,32 @@ public class EmployeeDao {
 						employee.getDesignation(),employee.getEmailid()});
 	}
 	
+	public void saveUsingHibernate(Employee employee) {
+		
+		System.out.println("save employee using hibernate");
+		
+		Session session = null;
+		Transaction tx = null;
+		
+		try {
+			
+			session = sessionFactory.openSession();
+			tx = session.beginTransaction();
+			
+			session.save(employee);
+			
+			tx.commit();
+			
+		}catch(HibernateException ex) {
+			ex.printStackTrace();
+			if(tx != null)
+				tx.rollback();
+		}finally {
+			if(session != null)
+				session.clear();
+		}
+	}
+	
 	
 	public void saveEmployee(Employee employee) {
 		
@@ -62,7 +95,9 @@ public class EmployeeDao {
 		
 		//saveUsingDataSource(employee);
 		
-		saveUsingJDBCTemplate(employee);
+		//saveUsingJDBCTemplate(employee);
+		
+		saveUsingHibernate(employee);
 		
 		//save it into db
 	}
