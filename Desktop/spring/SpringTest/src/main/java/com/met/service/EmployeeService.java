@@ -17,7 +17,7 @@ public class EmployeeService {
 	
 	public void saveEmployee(Employee employee) {
 		
-		System.out.println(empdao.getClass());
+		//System.out.println(empdao.getClass());
 		
 		//perform save validation on employee object.
 		
