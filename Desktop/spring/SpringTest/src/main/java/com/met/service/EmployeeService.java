@@ -16,6 +16,9 @@ public class EmployeeService {
 	EmployeeDao empdao;
 	
 	public void saveEmployee(Employee employee) {
+		
+		System.out.println(empdao.getClass());
+		
 		//perform save validation on employee object.
 		
 		String emailid = employee.getEmailid();
