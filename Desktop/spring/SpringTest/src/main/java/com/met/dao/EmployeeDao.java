@@ -2,6 +2,7 @@ package com.met.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.HashMap;
@@ -10,6 +11,7 @@ import java.util.Map;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -45,6 +47,8 @@ public class EmployeeDao {
 	
 	public void saveUsingJDBCTemplate(Employee employee) {
 		
+		System.out.println("saving employee using jdbc template");
+		
 		jdbcTemplate.update("insert into EmployeeTbl values(?,?,?,?)",
 				new Object[] {employee.getId(),employee.getName(),
 						employee.getDesignation(),employee.getEmailid()});
@@ -63,8 +67,28 @@ public class EmployeeDao {
 		//save it into db
 	}
 	
+//	class BeanPropertyRowMapper implements RowMapper<Employee>{
+//		
+//		public Employee mapRow(ResultSet rs,int arg1) throws SQLException {
+//			
+//			Employee emp = new Employee();
+//			emp.setId(rs.getInt(1));
+//			emp.setName(rs.getString(2));
+//			emp.setDesignation(rs.getString(3));
+//			emp.setEmailid(rs.getString(4));
+//			
+//			return emp;
+//		}
+//	}
+
+	
 	public Collection<Employee> getAllEmployees(){
-		return mapEmployee.values();
+		
+		
+		return jdbcTemplate.query("select * from employeeTbl", 
+				new BeanPropertyRowMapper<Employee>(Employee.class));
+		
+		//return mapEmployee.values();
 	}
 
 }
