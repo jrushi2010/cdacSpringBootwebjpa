@@ -1,0 +1,71 @@
+git --version
+
+git help
+
+git config : It provides set of configuration variables that control how git looks and operates
+
+git config --global user.email "parag.joshi@hematitecorp.com"
+git config --global user.name "joshipar"
+
+git config -l
+git config --global -l
+
+
+git init - It will initialize an empty git repository and new subfolder .git will be created , It will be used to keep track of changes in the project
+
+git status - it prints out which files are modified, staged or untracked
+
+git add <filename> : specific file to the staging area
+git add . : all untracked and modified files to staging
+git add <foldername> : it will sent folder along with files inside it to staging
+git add -A or git add * : all untracked files to staging
+
+git rm --cached <filename> : file removed from staging to untracked
+
+git commit -m "intital version" : Commits the staged file into commit stage with head pointing to latest commited id
+
+git log : provides the commit log
+
+git diff - will provide the difference between the commited file and the local modified file
+
+git reset commitid - will reset the changes to the specific commit pointing
+
+git log --pretty=oneline : print the commit log in single line
+
+git log --pretty=short
+
+git log --pretty=medium
+
+git log --pretty=full
+
+git log  --date=short --pretty=format: "%h %ad | %s %d [%an]" 
+
+git log --pretty=format: "%C(yellow)%h%Creset %ad | %Cgreen%s %Creset %Cred%d %Creset %Cblue[%an]" 
+
+git log --parents
+
+git log --parents --oneline
+
+git log --graph
+
+git shortlog
+
+git ls-files
+
+git show : to show the metadata and changes occured during the commit
+
+git branch - list all the branches
+
+git branch <branchname> - It will create the branch
+
+git checkout <branchname> - Head will start pointing to a specific branchname
+
+git checkout -b <branchname> - Creates the branch if not exists and checkout to the specified branch
+
+git reset --hard <commitid>
+
+git merge <branchname>
+
+
+
+
