@@ -2,7 +2,6 @@ package com.met.cdac.springbootweb.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.HashMap;
@@ -58,7 +57,7 @@ public class EmployeeDao {
 						employee.getDesignation(),employee.getEmailid()});
 	}
 	
-	
+	@Transactional
 	public void saveEmployee(Employee employee) {
 		
 		System.out.println("EmployeeDao :: saveEmployee" + employee);
@@ -71,8 +70,6 @@ public class EmployeeDao {
 
 	
 	public Collection<Employee> getAllEmployees(){
-		
-		
 		return jdbcTemplate.query("select * from employeeTbl", 
 				new BeanPropertyRowMapper<Employee>(Employee.class));
 		
@@ -84,5 +81,6 @@ public class EmployeeDao {
 				new BeanPropertyRowMapper<Employee>(Employee.class));
 		
 	}
+	
 
 }

@@ -1,14 +1,16 @@
 package com.met.cdac.springbootweb.controller;
 
 import org.springframework.http.MediaType;
+
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.met.cdac.springbootweb.model.Employee;
@@ -17,7 +19,7 @@ import com.met.cdac.springbootweb.service.EmployeeService;
 
 //@Controller
 @RestController  //combination of @controller and @responsebdy
-@RequestMapping("/welcome")
+@RequestMapping("/employee")
 public class EmployeeRestController {
 
 //	@GetMapping
@@ -33,6 +35,8 @@ public class EmployeeRestController {
 	@Autowired
 	EmployeeService empservice;
 	
+	//http://localhost:8050/sbwebdata/employee/getEmp/2
+	@CrossOrigin
 	@GetMapping(value="getEmp/{id}",produces= {
 			MediaType.APPLICATION_JSON_VALUE
 			})
@@ -45,11 +49,20 @@ public class EmployeeRestController {
 //		return empservice.getEmployee(id);
 //	}
 	
+	@CrossOrigin
 	@PostMapping(value="saveEmp",consumes= MediaType.APPLICATION_JSON_VALUE)
 	public String saveEmployee(@RequestBody Employee employee) {
 		empservice.saveEmployee(employee);
 		return "success";
 		
 	}
+	
+	//http://localhost:8050/sbwebdata/employee/getAllEmployees
+	@CrossOrigin
+	@GetMapping(value="getAllEmployees",produces= {MediaType.APPLICATION_JSON_VALUE})
+	public Collection<Employee> getAllEmployeees(){
+		return empservice.getAllEmployees();
+	}
+
 	
 }
